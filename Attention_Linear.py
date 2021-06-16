@@ -143,7 +143,7 @@ class TransAm(nn.Module):
 
 # define get data function
 def get_data(train_data_size, sliding_window_size):
-    data_read = pd.DataFrame(pd.read_csv('C:/Users/11981/Desktop/Data/input_data.csv', header=None, usecols=[0]))
+    data_read = pd.DataFrame(pd.read_csv('./Data/input_data.csv', header=None, usecols=[0]))
     data_save = []
     for col in data_read.columns:
         data_save = data_read[col]
@@ -253,7 +253,7 @@ def evaluate(net, data_input, data_outcome):
     # plt.legend(loc='upper right')
     # plt.plot(origin_plot, 'b', label='Ground Truth')
     # plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/TrainData/Attention_Linear/Attention_epoch1200.png', bbox_inches='tight')
+    # plt.show()
     # plt.close()
     # plt.plot(loss_list, 'y', label='loss')
     # plt.legend(loc='upper right')
@@ -263,7 +263,7 @@ def evaluate(net, data_input, data_outcome):
     # plt.xlabel("Epoch")
     # plt.ylabel("MSE")
     # plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/TrainData/Attention_Linear/Attention_loss_epoch1200.png', bbox_inches='tight')
+    # plt.show()
     # plt.close()
     # 计算误差
     mse = mean_squared_error(pred_test, data_outcome)
@@ -275,7 +275,7 @@ def evaluate(net, data_input, data_outcome):
     # 保存预测结果
     print(data_outcome[0])
     data_csv = pd.DataFrame(pred_test[-200:])
-    data_csv.to_csv('C:/Users/11981/Desktop/Data/Attention_predict_data.csv', index=False, header=False)
+    data_csv.to_csv('./Data/Attention_predict_data.csv', index=False, header=False)
 
 
 input_numpy, target_numpy = get_data(train_data_size=train_data_size, sliding_window_size=sliding_window_size)

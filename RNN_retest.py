@@ -41,7 +41,7 @@ class rnn_reg(nn.Module):
 
 # define get data function
 def get_data(train_data_size, sliding_window_size):
-    data_read = pd.DataFrame(pd.read_csv('C:/Users/11981/Desktop/Data/input_data.csv', header=None, usecols=[0]))
+    data_read = pd.DataFrame(pd.read_csv('./Data/input_data.csv', header=None, usecols=[0]))
     data_save = []
     for col in data_read.columns:
         data_save = data_read[col]
@@ -142,15 +142,13 @@ def evaluate(net, data_input, data_outcome, sliding_window_size):
     plt.xlabel("Data Index")
     plt.ylabel("Data Value")
     plt.legend(loc='upper right')
-    # plt.show()
-    plt.savefig('C:/Users/11981/Desktop/TrainData/RNN_Linear/RNN_predict_epoch250.png', bbox_inches='tight')
+    plt.show()
     plt.close()
     plt.plot(loss_list, 'y', label='loss')
     plt.legend(loc='upper right')
     plt.xlabel("Epoch")
     plt.ylabel("MSE")
-    # plt.show()
-    plt.savefig('C:/Users/11981/Desktop/TrainData/RNN_Linear/RNN_loss_epoch250.png', bbox_inches='tight')
+    plt.show()
     plt.close()
     # 计算误差
     mse = mean_squared_error(pred_test, data_outcome)
@@ -162,7 +160,7 @@ def evaluate(net, data_input, data_outcome, sliding_window_size):
     # 保存预测结果
     # print(data_outcome[0])
     data_csv = pd.DataFrame(prediction_plot)
-    data_csv.to_csv('C:/Users/11981/Desktop/Data/RNN_predict_data.csv', index=False, header=False)
+    data_csv.to_csv('./Data/RNN_predict_data.csv', index=False, header=False)
 
 
 # Get Data
@@ -173,10 +171,3 @@ print(input_torch.shape, outcome_torch.shape, test_input.shape, test_outcome.sha
 net, loss_list = train(input_torch, outcome_torch, input_size, hidden_size, iteration)
 # Evaluating
 evaluate(net, test_input, test_outcome, sliding_window_size)
-# rnn = rnn_reg(1, 32)
-# input = torch.randn(3, 32, 1)
-# h0 = rnn.init_hidden(3, 32)
-# output = rnn(input, h0)
-# print(output.shape)
-#
-# print()

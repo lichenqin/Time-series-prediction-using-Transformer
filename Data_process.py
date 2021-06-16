@@ -6,7 +6,7 @@ from scipy.signal import savgol_filter
 from sklearn.metrics import mean_squared_error
 
 # 获取数据
-data_read = pd.DataFrame(pd.read_csv('C:/Users/11981/Desktop/Data/slot_m5_change.csv', header=None, usecols=[0]))
+data_read = pd.DataFrame(pd.read_csv('./Data/origin_data.csv', header=None, usecols=[0]))
 
 
 # 原始数据绘图
@@ -15,13 +15,14 @@ def plot_origin_data(data):
     plt.xlabel('Data Value')
     plt.ylabel('Number of Data in same Range')
     plt.legend(loc='upper right')
-    plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/origin_data_histogram.png', bbox_inches='tight')
+    # plt.savefig('./Result/1.png', bbox_inches='tight')
+    plt.show()
     plt.close()
     plt.plot(data, label='Origin data')
     plt.xlabel('Data Index')
     plt.ylabel('Data Value')
     plt.legend(loc='upper right')
-    plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/origin_data.png', bbox_inches='tight')
+    plt.show()
     plt.close()
 
 
@@ -30,13 +31,13 @@ def plot_changed_data(data):
     plt.xlabel('Data Value')
     plt.ylabel('Number of Data in same Range')
     plt.legend(loc='upper right')
-    plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/changed_data_histogram.png', bbox_inches='tight')
+    plt.show()
     plt.close()
     plt.plot(data, label='Changed data')
     plt.xlabel('Data Index')
     plt.ylabel('Data Value')
     plt.legend(loc='upper right')
-    plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/changed_data.png', bbox_inches='tight')
+    plt.show()
     plt.close()
 
 
@@ -44,22 +45,6 @@ def data_log_process(data):
     data_log = []
     for index in range(len(data)):
         data_log.append(float(math.log(data[index])))
-
-    # 输出
-    # plt.hist(data_log, bins=500, color='steelblue', label='Log process data histogram')  # 返回值元组
-    # plt.xlabel('Data Value')
-    # plt.ylabel('Number of Data in same Range')
-    # plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/data_log_histogram.png', bbox_inches='tight')
-    # # plt.show()
-    # plt.close()
-    # plt.plot(data_log, label='Log process data')
-    # plt.xlabel('Data Index')
-    # plt.ylabel('Data Value')
-    # plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/data_log_process.png', bbox_inches='tight')
-    # # plt.show()
-    # plt.close()
 
     return data_log
 
@@ -113,12 +98,10 @@ def min_max_scaling(data, max, min):
 
     plt.hist(data, bins=500, color='steelblue', label='min_max scaling histogram')  # 返回值元组
     plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/changed_data_histogram.png', bbox_inches='tight')
     plt.show()
     plt.close()
     plt.plot(data, label='min_max scaling data')
     plt.legend(loc='upper right')
-    # plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/changed_data.png', bbox_inches='tight')
     plt.show()
     plt.close()
     return data, max, min
@@ -145,8 +128,7 @@ def find_sg_parameter(data):
     plt.legend(loc='upper right')
     plt.xlabel('Sliding_window = 2k+1')
     plt.ylabel('MSE')
-    plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/static_k_static_m_sg_mse.png', bbox_inches='tight')
-    # plt.show()
+    plt.show()
     plt.close()
 
 
@@ -160,9 +142,11 @@ for col in data_read.columns:
 
 data_log_processed = data_log_process(data)
 find_sg_parameter(data)
-# data_log_processed = data_log_process(data_read)
 data_min_max, max, min = min_max_scaling(data_log_processed, max, min)
 data_smooth = savgol_filter(data_min_max, 21, 15)
+
+data_csv = pd.DataFrame(data_smooth)
+data_csv.to_csv('./Data/input_data.csv', index=False, header=False)
 
 data_smooth = data_smooth[7832:8032]
 plt.plot(data_smooth)
@@ -175,23 +159,5 @@ plt.plot(data_smooth)
 plt.show()
 plt.close()
 data_csv = pd.DataFrame(data_smooth[-200:])
-data_csv.to_csv('C:/Users/11981/Desktop/Data/origin_slice_data.csv', index=False, header=False)
-
-# data_smooth1 = savgol_filter(data_min_max, 19, 15)
-# data_smooth2 = savgol_filter(data_min_max, 21, 15)
-# data_smooth3 = savgol_filter(data_min_max, 19, 17)
-
-
-# plt.plot(data_min_max[:50], label='Ground Truth')
-# plt.plot(data_smooth1[:50], 'y', label='W:19 K:15')
-# plt.plot(data_smooth2[:50], 'r', label='W:21 K:15')
-# plt.plot(data_smooth3[:50], 'g', label='W:19 K:17')
-# plt.xlabel('Data Index')
-# plt.ylabel('MSE')
-# plt.legend(loc='upper center')
-# plt.savefig('C:/Users/11981/Desktop/机器学习/论文写作素材/图片素材/sliding_window.png', bbox_inches='tight')
-# plt.close()
-
-# data_csv = pd.DataFrame(data_smooth)
-# data_csv.to_csv('C:/Users/11981/Desktop/Data/input_data.csv', index=False, header=False)
+data_csv.to_csv('./Data/origin_slice_data.csv', index=False, header=False)
 

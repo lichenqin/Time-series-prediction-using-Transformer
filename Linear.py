@@ -22,7 +22,7 @@ loss_list = []      # loss_list用于收集迭代过程中产生的loss
 
 # define get data function
 def get_data(train_data_size, sliding_window_size):
-    data_read = pd.DataFrame(pd.read_csv('C:/Users/11981/Desktop/Data/input_data.csv', header=None, usecols=[0]))
+    data_read = pd.DataFrame(pd.read_csv('./Data/input_data.csv', header=None, usecols=[0]))
     data_save = []
     for col in data_read.columns:
         data_save = data_read[col]
@@ -138,14 +138,12 @@ def evaluate(net, data_input, data_outcome, sliding_window_size=32):
     # plt.ylabel("Data Value")
     # plt.legend(loc='upper right')
     # # plt.show()
-    # plt.savefig('C:/Users/11981/Desktop/TrainData/Linear/predict_epoch500.png', bbox_inches='tight')
     # plt.close()
     # plt.plot(loss_list, 'y', label='Loss')
     # plt.legend(loc='upper right')
     # plt.xlabel("Epoch")
     # plt.ylabel("MSE")
     # #plt.show()
-    # plt.savefig('C:/Users/11981/Desktop/TrainData/Linear/loss_epoch500.png', bbox_inches='tight')
     # plt.close()
     # 计算误差
     mse = mean_squared_error(pred_test[5600:], data_outcome[5600:])
@@ -157,11 +155,10 @@ def evaluate(net, data_input, data_outcome, sliding_window_size=32):
     # 保存预测结果
     # print(data_outcome[5600])
     data_csv = pd.DataFrame(prediction_plot)
-    data_csv.to_csv('C:/Users/11981/Desktop/Data/Transformer_predict_data.csv', index=False, header=False)
+    data_csv.to_csv('./Data/Transformer_predict_data.csv', index=False, header=False)
 
 
 input, target = get_data(train_data_size, sliding_window_size)
 train_input, train_target = get_train_and_test(input, target, 0.7, sliding_window_size)
 net = train(train_input, train_target, iteration)
 evaluate(net, input, target, sliding_window_size)
-
